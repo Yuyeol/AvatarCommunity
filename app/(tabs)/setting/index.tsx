@@ -1,10 +1,10 @@
 import { Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function ExploreScreen() {
+export default function SettingScreen() {
   return (
     <SafeAreaView>
-      <Text>탐색</Text>
+      <Text>설정</Text>
     </SafeAreaView>
   );
 }
