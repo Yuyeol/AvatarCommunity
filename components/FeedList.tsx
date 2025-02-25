@@ -10,7 +10,7 @@ const dummyData: Post[] = [
     title: "title",
     description:
       "descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescription",
-    createdAt: "",
+    createdAt: "2025-01-01",
     author: {
       id: 1,
       nickname: "nickname",
@@ -29,7 +29,7 @@ const dummyData: Post[] = [
     title: "title",
     description:
       "descriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescriptiondescription",
-    createdAt: "",
+    createdAt: "2025-01-01",
     author: {
       id: 1,
       nickname: "nickname",
