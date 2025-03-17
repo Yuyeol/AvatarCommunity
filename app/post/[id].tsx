@@ -9,11 +9,13 @@ import useGetPost from "@/hooks/queries/useGetPost";
 import { useLocalSearchParams } from "expo-router";
 import { Fragment, useRef, useState } from "react";
 import {
+  Keyboard,
   Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -24,12 +26,35 @@ export default function PostDetailScreen() {
   const [content, setContent] = useState("");
   const createComment = useCreateComment();
   const scrollRef = useRef<ScrollView | null>(null);
+  const inputRef = useRef<TextInput | null>(null);
+  const [parentCommentId, setParentCommentId] = useState<number | null>(null);
   if (isPending || isError) return <Fragment></Fragment>;
+
+  const handleReply = (commentId: number) => {
+    setParentCommentId(commentId);
+    inputRef.current?.focus();
+  };
+
+  const handleCancelReply = () => {
+    setParentCommentId(null);
+    Keyboard.dismiss();
+  };
+
   const handleSubmitComment = () => {
     const commentData = {
       postId: post.id,
       content,
     };
+
+    if (parentCommentId) {
+      createComment.mutate({
+        ...commentData,
+        parentCommentId,
+      });
+      setContent("");
+      handleCancelReply();
+      return;
+    }
     createComment.mutate(commentData);
     setContent("");
     setTimeout(() => {
@@ -54,15 +79,28 @@ export default function PostDetailScreen() {
               </Text>
             </View>
             {post.comments?.map((comment) => (
-              <CommentItem key={comment.id} comment={comment} />
+              <Fragment key={comment.id}>
+                <CommentItem
+                  comment={comment}
+                  parentCommentId={parentCommentId}
+                  onReply={() => handleReply(comment.id)}
+                  onCancelReply={handleCancelReply}
+                />
+                {comment.replies?.map((reply) => (
+                  <CommentItem key={reply.id} comment={reply} isReply />
+                ))}
+              </Fragment>
             ))}
           </ScrollView>
           <View style={styles.commentInputContainer}>
             <InputField
+              ref={inputRef}
               value={content}
               onChangeText={(text) => setContent(text)}
               returnKeyType="send"
-              placeholder="댓글을 남겨보세요."
+              placeholder={
+                parentCommentId ? "답글 남기는중..." : "댓글을 남겨보세요."
+              }
               onSubmitEditing={handleSubmitComment}
               rightChild={
                 <Pressable
