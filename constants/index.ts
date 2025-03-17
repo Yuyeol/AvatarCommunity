@@ -11,4 +11,12 @@ const colors = {
   ORANGE_600: "#FF6B57",
 };
 
-export { colors };
+const queryKeys = {
+  AUTH: "auth",
+  GET_ME: "getMe",
+  POST: "post",
+  GET_POSTS: "getPosts",
+  GET_POST: "getPost",
+};
+
+export { colors, queryKeys };

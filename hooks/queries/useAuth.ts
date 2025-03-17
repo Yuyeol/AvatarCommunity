@@ -1,21 +1,35 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getMe, postLogin, postSignup } from "@/api/auth";
 import { router } from "expo-router";
-import { deleteSecureStore, saveSecureStore } from "@/app/utils/secureStore";
+import {
+  deleteSecureStore,
+  getSecureStore,
+  saveSecureStore,
+} from "@/app/utils/secureStore";
 import { removeHeader, setHeader } from "@/app/utils/header";
 import queryClient from "@/api/queryClient";
 import { useEffect } from "react";
+import { queryKeys } from "@/constants";
 
 function useGetMe() {
-  const { data, isError } = useQuery({
+  const { data, isError, isSuccess } = useQuery({
     queryFn: getMe,
-    queryKey: ["auth", "getMe"],
+    queryKey: [queryKeys.AUTH, queryKeys.GET_ME],
   });
   useEffect(() => {
-    if (isError) {
-      removeHeader("Authorization");
-      deleteSecureStore("accessToken");
-    }
+    (async () => {
+      if (isSuccess) {
+        const accessToken = await getSecureStore("accessToken");
+        setHeader("Authorization", `Bearer ${accessToken}`);
+      }
+    })();
+  }, [isSuccess]);
+  useEffect(() => {
+    // 에러처리가 상세하지않아서 계속해서 로그아웃되는 현상. 일단 주석처리함
+    // if (isError) {
+    //     removeHeader("Authorization");
+    //     deleteSecureStore("accessToken");
+    // }
   }, [isError]);
   return { data };
 }

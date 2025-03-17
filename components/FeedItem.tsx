@@ -8,21 +8,77 @@ import {
 } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import Profile from "./Profile";
+import useAuth from "@/hooks/queries/useAuth";
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import useDeletePost from "@/hooks/queries/useDeletePost";
+import { router } from "expo-router";
 
 interface FeedItemProps {
   post: Post;
+  isDetail?: boolean;
 }
 
-export default function FeedItem({ post }: FeedItemProps) {
-  const isLiked = false;
+export default function FeedItem({ post, isDetail = false }: FeedItemProps) {
+  const { auth } = useAuth();
+  const likedUser = post.likes?.map((like) => Number(like.userId));
+  const isLiked = likedUser?.includes(Number(auth.id));
+  const { showActionSheetWithOptions } = useActionSheet();
+  const deletePost = useDeletePost();
+  const handlePressOption = () => {
+    const options = ["삭제", "수정", "취소"];
+    const destructiveButtonIndex = 0;
+    const cancelButtonIndex = 2;
+    showActionSheetWithOptions(
+      {
+        options,
+        destructiveButtonIndex,
+        cancelButtonIndex,
+      },
+      (selectedIndex) => {
+        switch (selectedIndex) {
+          case destructiveButtonIndex:
+            deletePost.mutate(post.id, {
+              onSuccess: () => isDetail && router.back(),
+            });
+            break;
+          case 1:
+            router.push(`/post/update/${post.id}`);
+            break;
+          case cancelButtonIndex:
+            console.log("취소");
+            break;
+          default:
+            break;
+        }
+      }
+    );
+  };
+
+  const handlePressFeed = () => {
+    if (!isDetail) {
+      router.push(`/post/${post.id}`);
+    }
+  };
+  const ContainerComponent = isDetail ? View : Pressable;
+
   return (
-    <View style={styles.container}>
+    <ContainerComponent style={styles.container} onPress={handlePressFeed}>
       <View style={styles.contentContainer}>
         <Profile
           nickname={post.author.nickname}
           createdAt={post.createdAt}
           imageUri={post.author.imageUri}
           onPress={() => {}}
+          option={
+            auth.id === post.author.id && (
+              <Ionicons
+                name="ellipsis-vertical"
+                size={24}
+                color={colors.BLACK}
+                onPress={handlePressOption}
+              />
+            )
+          }
         />
         <Text style={styles.title}>{post.title}</Text>
         <Text style={styles.description} numberOfLines={3}>
@@ -37,7 +93,7 @@ export default function FeedItem({ post }: FeedItemProps) {
             color={isLiked ? colors.ORANGE_600 : colors.BLACK}
           />
           <Text style={isLiked ? styles.activeMenuText : styles.menuText}>
-            {post.voteCount}
+            {post.likes.length || "좋아요"}
           </Text>
         </Pressable>
         <Pressable style={styles.menu}>
@@ -46,14 +102,14 @@ export default function FeedItem({ post }: FeedItemProps) {
             size={16}
             color={colors.BLACK}
           />
-          <Text style={styles.menuText}>{post.commentCount}</Text>
+          <Text style={styles.menuText}>{post.commentCount || "댓글"}</Text>
         </Pressable>
         <Pressable style={styles.menu}>
           <Ionicons name="eye-outline" size={16} color={colors.BLACK} />
           <Text style={styles.menuText}>{post.viewCount}</Text>
         </Pressable>
       </View>
-    </View>
+    </ContainerComponent>
   );
 }
 
