@@ -12,6 +12,7 @@ import useAuth from "@/hooks/queries/useAuth";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import useDeletePost from "@/hooks/queries/useDeletePost";
 import { router } from "expo-router";
+import ImagePreviewList from "./ImagePreviewList";
 
 interface FeedItemProps {
   post: Post;
@@ -84,6 +85,7 @@ export default function FeedItem({ post, isDetail = false }: FeedItemProps) {
         <Text style={styles.description} numberOfLines={3}>
           {post.description}
         </Text>
+        <ImagePreviewList imageUris={post.imageUris} />
       </View>
       <View style={styles.menuContainer}>
         <Pressable style={styles.menu}>
