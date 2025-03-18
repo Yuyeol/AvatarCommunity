@@ -10,6 +10,8 @@ const colors = {
   GRAY_600: "#A2A2A2",
   GRAY_700: "#919191",
   ORANGE_100: "#FFF7F1",
+  ORANGE_200: "#FFE8D9",
+  ORANGE_300: "#FFD8B6",
   ORANGE_600: "#FF6B57",
 };
 

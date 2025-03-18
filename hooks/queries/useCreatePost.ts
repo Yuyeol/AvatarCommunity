@@ -14,6 +14,9 @@ function useCreatePost() {
         queryKey: [queryKeys.POST, queryKeys.GET_POSTS],
       });
     },
+    onError: (error) => {
+      console.log(error);
+    },
   });
 }
 
