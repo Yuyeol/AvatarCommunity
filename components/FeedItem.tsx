@@ -49,7 +49,6 @@ export default function FeedItem({ post, isDetail = false }: FeedItemProps) {
             router.push(`/post/update/${post.id}`);
             break;
           case cancelButtonIndex:
-            console.log("취소");
             break;
           default:
             break;
@@ -71,11 +70,13 @@ export default function FeedItem({ post, isDetail = false }: FeedItemProps) {
     }
     if (!isDetail) {
       router.push(`/post/${post.id}`);
+      return;
     }
     likePost.mutate(post.id);
   };
 
   const ContainerComponent = isDetail ? View : Pressable;
+  console.log(post.author);
 
   return (
     <ContainerComponent style={styles.container} onPress={handlePressFeed}>

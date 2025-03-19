@@ -1,7 +1,6 @@
 import FixedBottomCTA from "@/components/FixedBottomCTA";
 import { StyleSheet, View } from "react-native";
 import { FormProvider, useForm } from "react-hook-form";
-import PasswordConfirmInput from "@/components/PasswordConfirmInput";
 import PasswordInput from "@/components/PasswordInput";
 import EmailInput from "@/components/EmailInput";
 import useAuth from "@/hooks/queries/useAuth";

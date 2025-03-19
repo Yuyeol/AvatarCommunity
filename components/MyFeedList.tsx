@@ -1,18 +1,18 @@
 import FeedItem from "@/components/FeedItem";
 import { colors } from "@/constants";
 import { FlatList, StyleSheet } from "react-native";
-import useGetInfinitePosts from "@/hooks/queries/useGetInfinitePosts";
+import useGetInfiniteMyPosts from "@/hooks/queries/useGetInfiniteMyPosts";
 import { useRef, useState } from "react";
 import { useScrollToTop } from "@react-navigation/native";
 
-export default function FeedList() {
+export default function MyFeedList() {
   const {
     data: posts,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     refetch,
-  } = useGetInfinitePosts();
+  } = useGetInfiniteMyPosts();
   const [isRefreshing, setIsRefreshing] = useState(false);
   const ref = useRef<FlatList | null>(null);
   useScrollToTop(ref);

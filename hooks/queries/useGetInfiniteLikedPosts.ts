@@ -1,11 +1,11 @@
-import { getPosts } from "@/api/post";
+import { getLikedPosts } from "@/api/post";
 import { queryKeys } from "@/constants";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-function useGetInfinityPosts() {
+function useGetInfiniteLikedPosts() {
   return useInfiniteQuery({
-    queryFn: ({ pageParam }) => getPosts(pageParam),
-    queryKey: [queryKeys.POST, queryKeys.GET_POSTS],
+    queryFn: ({ pageParam }) => getLikedPosts(pageParam),
+    queryKey: [queryKeys.POST, queryKeys.GET_POSTS, queryKeys.GET_LIKED_POSTS],
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) => {
       const lastPost = lastPage[lastPage.length - 1];
@@ -14,4 +14,4 @@ function useGetInfinityPosts() {
   });
 }
 
-export default useGetInfinityPosts;
+export default useGetInfiniteLikedPosts;
