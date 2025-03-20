@@ -40,7 +40,6 @@ export default function Vote({ postId, postVotes, voteCount }: VoteProps) {
           option.userVotes.map((userVote) => userVote.userId)
         );
         const isVoted = voteUserIds.includes(Number(auth.id));
-        console.log(auth.id, vote.options);
 
         return (
           <Fragment key={vote.id}>

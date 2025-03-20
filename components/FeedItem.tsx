@@ -76,8 +76,6 @@ export default function FeedItem({ post, isDetail = false }: FeedItemProps) {
   };
 
   const ContainerComponent = isDetail ? View : Pressable;
-  console.log(post.author);
-
   return (
     <ContainerComponent style={styles.container} onPress={handlePressFeed}>
       <View style={styles.contentContainer}>
@@ -85,7 +83,7 @@ export default function FeedItem({ post, isDetail = false }: FeedItemProps) {
           nickname={post.author.nickname}
           createdAt={post.createdAt}
           imageUri={post.author.imageUri}
-          onPress={() => {}}
+          onPress={() => router.push(`/profile/${post.author.id}`)}
           option={
             auth.id === post.author.id && (
               <Ionicons

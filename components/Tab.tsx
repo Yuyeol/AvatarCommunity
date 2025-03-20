@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text } from "react-native";
 interface TabProps {
   children: React.ReactNode;
   isActive: boolean;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 export default function Tab({ children, isActive, onPress }: TabProps) {
