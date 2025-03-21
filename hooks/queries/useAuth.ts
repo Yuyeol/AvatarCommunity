@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getMe, postLogin, postSignup } from "@/api/auth";
+import { editProfile, getMe, postLogin, postSignup } from "@/api/auth";
 import { router } from "expo-router";
 import {
   deleteSecureStore,
@@ -59,10 +59,20 @@ function useSignup() {
   });
 }
 
+function useUpdateProfile() {
+  return useMutation({
+    mutationFn: editProfile,
+    onSuccess: (newProfile) => {
+      queryClient.setQueryData([queryKeys.AUTH, queryKeys.GET_ME], newProfile);
+    },
+  });
+}
+
 function useAuth() {
   const { data } = useGetMe();
   const loginMutation = useLogin();
   const signupMutation = useSignup();
+  const profileMutation = useUpdateProfile();
   const logout = () => {
     removeHeader("Authorization");
     deleteSecureStore("accessToken");
@@ -76,9 +86,16 @@ function useAuth() {
       nickname: data?.nickname || "",
       imageUri: data?.imageUri || "",
       introduce: data?.introduce || "",
+      hatId: data?.hatId || "",
+      faceId: data?.faceId || "",
+      topId: data?.topId || "",
+      bottomId: data?.bottomId || "",
+      handId: data?.handId || "",
+      skinId: data?.skinId || "",
     },
     loginMutation,
     signupMutation,
+    profileMutation,
     logout,
   };
 }

@@ -3,7 +3,15 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/ko";
 import { ReactNode } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { baseUrls } from "@/api/axios";
 dayjs.extend(relativeTime);
 dayjs.locale("ko");
 
@@ -28,7 +36,11 @@ export default function Profile({
         <Image
           source={
             imageUri
-              ? { uri: imageUri }
+              ? {
+                  uri: `${
+                    Platform.OS === "ios" ? baseUrls.ios : baseUrls.android
+                  }/${imageUri}`,
+                }
               : require("@/assets/images/default-avatar.png")
           }
           style={styles.avatar}

@@ -22,7 +22,35 @@ export default function ProfileLayout() {
           headerTitle: "",
           headerLeft: () => (
             <Pressable onPress={() => router.back()}>
-              <Feather name="arrow-left" size={24} color="black" />
+              <Feather name="arrow-left" size={28} color="black" />
+            </Pressable>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="update"
+        options={{
+          headerShown: true,
+          headerBackButtonDisplayMode: "minimal",
+          headerShadowVisible: false,
+          headerTitle: "프로필 편집",
+          headerLeft: () => (
+            <Pressable onPress={() => router.back()}>
+              <Feather name="arrow-left" size={28} color="black" />
+            </Pressable>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="avatar"
+        options={{
+          headerShown: true,
+          headerBackButtonDisplayMode: "minimal",
+          headerShadowVisible: false,
+          headerTitle: "",
+          headerLeft: () => (
+            <Pressable onPress={() => router.back()}>
+              <Feather name="arrow-left" size={28} color="black" />
             </Pressable>
           ),
         }}
