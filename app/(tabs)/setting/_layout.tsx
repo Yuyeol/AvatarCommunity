@@ -1,6 +1,6 @@
 import { colors } from "@/constants";
 import { Stack } from "expo-router";
-export default function MyLayout() {
+export default function SettingLayout() {
   return (
     <Stack
       screenOptions={{
@@ -12,7 +12,7 @@ export default function MyLayout() {
         name="index"
         options={{
           headerShown: false,
-          title: "내 정보",
+          title: "설정",
         }}
       />
     </Stack>
